@@ -1,0 +1,38 @@
+Contenedor de Mondongos
+=======================
+
+El contenedor de mondongos **MondongoContainer** nos permite poder trabajar de
+una manera más sencilla con los documentos.
+
+Asignando Mondongos
+-------------------
+
+Podemos asignar un Mondongo por defecto y/o especificar Mondongo por documentos.
+
+    [php]
+    // por defecto
+    MondongoContainer::setDefault($mondongo);
+
+    // por documentos
+    MondongoContainer::setForName('Article', $mondongo);
+
+Usando Documentos
+-----------------
+
+Con el contenedor de mondongos podemos simplificar el trabajo con documentos:
+
+    [php]
+    // mondongo
+    $document->getMondongo();
+
+    // repositorio
+    $document->getRepository();
+
+    // definition
+    $document->getDefinition();
+
+    // saving
+    $document->save();
+
+    // deleting
+    $document->delete();

@@ -1,0 +1,9 @@
+Loguear
+=======
+
+Mondongo permite también loguear las consultas para depurar las aplicaciones.
+
+Para ello sólo hay que pasarle un método al que llamar al loguear:
+
+    [php]
+    $mondongo->setLogCallable('my_method_for_logging');

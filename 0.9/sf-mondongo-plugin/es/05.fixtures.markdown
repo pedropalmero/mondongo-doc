@@ -1,0 +1,19 @@
+Fixtures
+========
+
+Podemos definir fixtures en *data/mondongo*:
+
+    [yml]
+    Articles:
+      my_article:
+        author:  pablodip
+        title:   My Article
+        content: Content
+
+    Author:
+      pablodip:
+        name: Pablo Díez
+
+Y cargarlos:
+
+    $ ./symfony mondongo:data-load

@@ -1,0 +1,9 @@
+Logging
+=======
+
+Mondongo also allows logging of queries to debug the applications.
+
+In order to do it, you only have to pass a method to call when logging:
+
+    [php]
+    $mondongo->setLogCallable('my_method_for_logging');

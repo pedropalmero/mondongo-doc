@@ -1,0 +1,14 @@
+Introducción
+============
+
+El **sfMondongoPlugin** es el plugin para usar Mondongo con Symfony, un gran framework en PHP.
+
+El sfMondongoPlugin tiene las siguientes funcionalidades:
+
+  * Definir conexiones Mondongo en el *databases.yml*.
+  * Generación del modelo desde YAML.
+  * Relaciones automáticas en el esquema YAML.
+  * Generación de formularios desde el modelo.
+  * Widget y validador para trabajar con referencias.
+  * Tarea para cargar fixtures.
+  * Tarea para sincronizar los índices.

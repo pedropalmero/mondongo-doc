@@ -1,0 +1,18 @@
+Indexes
+=======
+
+In Mondongo documents it can be specified the indexes in the definitions, and later synchronize them easily with Mongo through the repository.
+
+Indexes definition:
+
+    [php]
+    // simple
+    $definition->addIndex(array('fields' => array('created_at' => 1)));
+
+    // with options
+    $definition->addIndex(array('fields' => array('slug' => 1), 'options' => array('unique' => 1))));
+
+Synchronization with Mongo:
+
+    [php]
+    $repository->ensureIndexes();

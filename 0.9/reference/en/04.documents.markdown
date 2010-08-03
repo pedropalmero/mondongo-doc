@@ -1,0 +1,129 @@
+Documents
+==========
+
+Mondongo documents are created like any other PHP object:
+
+    [php]
+    $article = new Article();
+
+In Mondongo documents you can access to the data and modify them according to their definition.
+
+Identifier
+-------------
+
+Accessing to the identifier **_id** of the Mongo documents is done in a different way from the rest of fields. It is simply used the **->getId()** function:
+
+    [php]
+    $article->getId();
+
+Fields
+------
+
+Mondongo document fields can be accessed in several ways:
+
+    [php]
+    // directly (fastest)
+    $article->get('title');
+
+    // through __get (fast)
+    $article->title;
+
+    // through ArrayAccess (fast)
+    $article['title'];
+
+    // through __call (slow)
+    $article->getTitle();
+
+Fields are modified in the same way:
+
+    [php]
+    // directly (fastest)
+    $article->set('title', 'Title');
+
+    // through __set (fast)
+    $article->title = 'Title';
+
+    // through ArrayAccess (fast)
+    $article['title'] = 'Title';
+
+    // through __call (slow)
+    $article->setTitle('Title');
+
+To array:
+
+    [php]
+    $article->toArray();
+
+From array:
+
+    [php]
+    $article->fromArray(array(
+      'title'   => 'Title',
+      'content' => 'Content',
+    ));
+
+References
+-----------
+
+References to one are assigned with the object or directly with the id:
+
+    [php]
+    // object
+    $article['author'] = $author;
+
+    // id
+    $article['author_id'] = $author->getId();
+
+It is accessed in the same way:
+
+    [php]
+    // object
+    $author = $article['author'];
+
+    // id
+    $authorId = $article['author_id'];
+
+References to many can be also assigned with objects or ids, but with objects we use a group of object to work more easily:
+
+    [php]
+    // group object
+    $article['categories']->add($category1);
+    $article['categories']->add($category2);
+
+    $article['categories']->setElements($categories);
+
+    $article['categories']->clear();
+
+    // id's
+    $article['categories_ids'] = array(
+      $category1->getId(),
+      $category2->getId(),
+    );
+
+And it is accessed:
+
+    [php]
+    // group object
+    $group = $article['categories'];
+
+    // interface Countable
+    $count = count($article['categories']);
+
+    // interface IteratorAggregate
+    foreach ($article['categories'] as $category)
+    {
+      // ...
+    }
+
+    // id's
+    $ids = $article['categories_ids'];
+
+Embeds
+---------
+
+Working with embeds is the same as with references, except that it is only by object because the don't have an id.
+
+Relations
+----------
+
+Working with relations is the same as with references, and as is embeds only by object, and only for accessing, because they can't be assigned.

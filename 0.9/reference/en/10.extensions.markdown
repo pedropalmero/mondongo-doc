@@ -1,0 +1,124 @@
+Extensions
+-----------
+
+Extensions (or behaviors) serve to add behaviors to the documents.
+
+With the extensions we can modify the definition, add methods to documents and repositories and add events.
+
+To access the document or repository that invokes the method it is done through **->getInvoker()**.
+
+Add extensions
+------------------
+
+Extensions are added to documents in the definitions:
+
+    [php]
+    static public function define($definition)
+    {
+      // ...
+
+      $definition->addExtension(new Sluggable());
+    }
+
+Modify the definition
+-----------------------
+
+To modify the definition you have to overwrite the method **setup**:
+
+    [php]
+    class Sluggable extends MondongoExtension
+    {
+      protected function setup($definition)
+      {
+        $definition->setField('slug', 'string');
+      }
+
+      // ...
+    }
+
+Add methods to documents and repository
+-----------------------------------------
+
+To add methods to the documents, you simply have to create them in the extension. Also for the repository, but the have to end with  *RepositoryProxy*.
+
+    [php]
+    class Sluggable extends MondongoExtension
+    {
+      // ...
+
+      // method for the document
+      public function getSlug()
+      {
+        return $this->getInvoiker()->get('slug');
+      }
+
+      // method for the repository
+      public function findOneBySlugRepositoryProxy($slug)
+      {
+        return $this->getInvoker()->findOne(array('slug' => $slug));
+      }
+    }
+
+Add events
+--------------
+
+To add events you have to use the same hooks as in the documents.
+
+    [php]
+    class Sluggable extends MondongoExtension
+    {
+      // ...
+
+      public function preInsert()
+      {
+        $invoker = $this->getInvoker();
+
+        $invoker['slug'] = my_sluggable_function($invoker['title']);
+      }
+    }
+
+Adding options to allow customizations
+----------------------------------------------
+
+To make the extensions more customizable we can use options.
+
+Options are assigned by default:
+
+    [php]
+    class Sluggable extends MondongoExtension
+    {
+      protected $options = array(
+        'from_field' => null,
+        'slug_field' => 'slug',
+        'builder'    => 'my_slug_function',
+      );
+
+      protected function setup($definition)
+      {
+        if (null === $this->options['from_field'])
+        {
+          throw new RuntimeException('The option "from_field" is required.');
+        }
+
+        $definition->setField($this->options['slug_field'], 'string');
+      }
+
+      public function preInsert()
+      {
+        $invoker = $this->getInvoker();
+
+        $invoker[$this->options['slug_field']] = call_user_func($this->options['builder'], $invoker[$this->options['from_field']]);
+      }
+
+      // ...
+    }
+
+And then when they are instantiated they can be customized:
+
+    [php]
+    static public function define($definition)
+    {
+      // ...
+
+      $definition->addExtension(new Sluggable($definition, array('from_field' => 'title')));
+    }

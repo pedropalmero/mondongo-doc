@@ -1,0 +1,33 @@
+Events
+=======
+
+Mondongo provides with several hooks in documents that are thrown before and after doing certain functions.
+
+    [php]
+    class Article extends MondongoDocument
+    {
+      static public function define($definition)
+      {
+        $definition->setField('created_at', 'date');
+      }
+
+      // hook
+      public function preInsert()
+      {
+        $this['created_at'] = new DateTime('now');
+      }
+    }
+
+Hooks
+-----
+
+Hook       | Listener
+-----------|------------
+preSave    | before saving (insert or update)
+postSave   | after saving (insert or update)
+preInsert  | before inserting
+postInsert | after inserting
+preUpdate  | before updating
+postUpdate | after updating
+preDelete  | before deleting
+postDelete | after deleting

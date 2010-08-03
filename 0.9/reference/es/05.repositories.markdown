@@ -1,0 +1,55 @@
+Repositorios
+============
+
+Los repositorios Mondongo tienen funciones generales de documentos.
+
+Se obtienen mediante el Mondongo:
+
+    [php]
+    $articleRepository = $mondongo->getRepository('Article');
+    $authorRepository  = $mondongo->getRepository('Author');
+
+Guardar Documentos
+------------------
+
+Los documentos se guardan (crean o actualizan) mediante el repositorio:
+
+    [php]
+    // uno
+    $articleRepository->save($article);
+
+    // varios
+    $articleRepository->save($articles);
+
+    // acceso desde el Mondongo
+    $mondongo->save('Article', $article);
+
+Borrar Documentos
+-----------------
+
+Los documentos se borran también desde el repositorio:
+
+    [php]
+    // uno
+    $articleRepository->delete($article);
+
+    // varios
+    $articleRepository->delete($articles);
+
+    // acceso desde el Mondongo
+    $mondongo->delete('Article', $article);
+
+Personalización
+---------------
+
+Por defecto se crean de la clase **MondongoRepository**, pero pueden
+personalizarse para cada documento. Para ello hay que crear la clase del tipo
+**%Documento%Repository**:
+
+    [php]
+    class ArticleRepository extends MondongoRepository
+    {
+      // ...
+    }
+
+    $articleRepository = $mondongo->getRepository('Article'); // ArticleRepository

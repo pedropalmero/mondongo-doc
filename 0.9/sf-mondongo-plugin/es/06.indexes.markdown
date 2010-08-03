@@ -1,0 +1,6 @@
+Índices
+=======
+
+Para sincronizar los índices del modelo:
+
+    $ ./symfony mondongo:ensure-indexes

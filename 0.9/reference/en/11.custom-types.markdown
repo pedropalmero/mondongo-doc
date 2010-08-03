@@ -1,0 +1,45 @@
+Customized Types
+====================
+
+As we commented in the definitions, custom types can be used separately from those who come by default in Mondongo.
+
+To do this we must create the type and add it to the types container.
+
+Custom Type
+------------------
+
+A custom type is only a class that inherits from MondongoType. Let's see an example:
+
+    [php]
+    class MondongoTypeString extends MondongoType
+    {
+      public function toMongo($value)
+      {
+        return (string) $value;
+      }
+
+      public function toPHP($value)
+      {
+        return (string) $value;
+      }
+
+      public function closureToMongo()
+      {
+        return '$return = (string) $value;';
+      }
+
+      public function closureToPHP()
+      {
+        return '$return = (string) $value;';
+      }
+    }
+
+The most curious are the functions *closure*, that are the same as the regular ones but in chain. They are one of the reasons why Mondongo is *ultrafast* ;)
+
+Types Container
+-------------------
+
+Once we have the customized type we only have to add it to the types container:
+
+    [php]
+    MondongoTypeContainer::addType('my_string', 'MondongoTypeString');

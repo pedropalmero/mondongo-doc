@@ -1,0 +1,135 @@
+Documentos
+==========
+
+Los documentos Mondongo se crean como cualquier objeto PHP:
+
+    [php]
+    $article = new Article();
+
+En los documentos Mondongo se puede acceder a los datos y modificarlos según su
+definición.
+
+Identificador
+-------------
+
+Para acceder al identificador **_id** de los documentos Mongo se hace de manera
+diferente al resto de campos. Se usa simplemente la función **->getId()**:
+
+    [php]
+    $article->getId();
+
+Campos
+------
+
+Puede accederse a los campos de los documentos Mondongo de varias maneras:
+
+    [php]
+    // directamente (el más rápido)
+    $article->get('title');
+
+    // mediante __get (rápido)
+    $article->title;
+
+    // mediente ArrayAccess (rápido)
+    $article['title'];
+
+    // mediante __call (lento)
+    $article->getTitle();
+
+De la misma manera pueden modificarse los campos:
+
+    [php]
+    // directamente (el más rápido)
+    $article->set('title', 'Title');
+
+    // mediente __set (rápido)
+    $article->title = 'Title';
+
+    // mediante ArrayAccess (rápido)
+    $article['title'] = 'Title';
+
+    // mediante __call (lento)
+    $article->setTitle('Title');
+
+Hacia array:
+
+    [php]
+    $article->toArray();
+
+Desde array:
+
+    [php]
+    $article->fromArray(array(
+      'title'   => 'Title',
+      'content' => 'Content',
+    ));
+
+Referencias
+-----------
+
+Las referencias a uno se asignan con el objeto o con la id directamente:
+
+    [php]
+    // objeto
+    $article['author'] = $author;
+
+    // id
+    $article['author_id'] = $author->getId();
+
+Y se accede de la misma manera:
+
+    [php]
+    // objeto
+    $author = $article['author'];
+
+    // id
+    $authorId = $article['author_id'];
+
+Las referencias a varios también se pueden asignar por objetos o ids, lo que
+con los objetos se usa un grupo de objetos para trabajar mejor:
+
+    [php]
+    // objeto de grupo
+    $article['categories']->add($category1);
+    $article['categories']->add($category2);
+
+    $article['categories']->setElements($categories);
+
+    $article['categories']->clear();
+
+    // id's
+    $article['categories_ids'] = array(
+      $category1->getId(),
+      $category2->getId(),
+    );
+
+Y se accede:
+
+    [php]
+    // objeto de grupo
+    $group = $article['categories'];
+
+    // interface Countable
+    $count = count($article['categories']);
+
+    // interface IteratorAggregate
+    foreach ($article['categories'] as $category)
+    {
+      // ...
+    }
+
+    // id's
+    $ids = $article['categories_ids'];
+
+Embebidos
+---------
+
+Con los embebidos se trabaja igual que con las referencias, salvo que es sólo
+por objeto ya que no tienen id.
+
+Relaciones
+----------
+
+Con las relaciones también se trabaja igual que con las referencias, e igual
+que en los embebidos sólo por objeto, y sólo para acceder, ya que no se pueden
+asignar.

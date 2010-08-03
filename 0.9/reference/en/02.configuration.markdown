@@ -1,0 +1,65 @@
+Configuration
+=============
+
+Mondongo configuration is very easy.
+
+Autoloading
+-----------
+
+We include the MondongoAutoload and register it:
+
+    [php]
+    require_once('/path/to/mondongo/lib/autoload/MondongoAutoload.php');
+    MondongoAutoload::register();
+
+Mondongo
+--------
+
+To use Mondongo we have to create at least one Mondongo with a connection:
+    [php]
+    // mongo
+    $mongo = new Mongo();
+
+    // mondongo
+    $mondongo = new Mondongo();
+
+    // connection
+    $mondongo->setConnection('local', new MondongoConnection($mongo->selectDB('local')));
+
+Connections
+----------
+
+In Mondongo it can be defined multiple connections to databases.
+
+Let's see some examples:
+
+    [php]
+    // assigning one
+    $mondongo->setConnection('global', new MondongoConnection($mongo->selectDB('global')));
+
+    // assigning many (resets)
+    $mondongo->setConnections(array(
+      'local'  => new MondongoConnection($mongo->selectDB('local')),
+      'global' => new MondongoConnection($mongo->selectDB('global')),
+    ));
+
+    // deleting
+    $mondongo->removeConnection('local');
+
+    // cleaning connections
+    $mondongo->clearConnections();
+
+### Default connection
+
+The default connection is the first one assigned, unless it is stated another one explicitly.
+
+    [php]
+    $mondongo->setConnections(array(
+      'local'  => new MondongoConnection($mongo->selectDB('local')),
+      'global' => new MondongoConnection($mongo->selectDB('global')),
+    ));
+
+    $mondongo->getDefaultConnection(); // local
+
+    $mondongo->setDefaultConnectionName('global');
+    $mondongo->getDefaultConnection(); // global

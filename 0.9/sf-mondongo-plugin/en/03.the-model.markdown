@@ -1,0 +1,43 @@
+The model
+---------
+
+With the *sfMondongoPlugin* we can easily generate the model from YAML.
+
+When we define the schema, we divide between documents and embeds. This way, we can reuse the embeds in multiple documents.
+
+    [yml]
+    documents:
+      Article:
+        connection: mondongo
+        collection: articles
+        actAs:
+          Timestampable: ~
+          Sluggable:     { from_field: title }
+        fields:
+          author_id: id
+          title:     string
+          content:   string
+          is_active: { type: boolean, default: true }
+          source:    { type: string, required: false }
+          date:      date
+        references:
+          author: { class: Author, field: author_id, type: one }
+        indexes:
+          - { fields: { date: 1 } }
+
+      Author:
+        fields:
+          name: string
+        embeds:
+          phonenumber: { class: Phonenumber, type: one }
+
+    embeds:
+      Phonenumber:
+        fields:
+          number: string
+
+And the command to generate the model:
+
+    $ ./symfony mondongo:build-model
+
+This will generate in *lib/model/mondongo* the documents we have defined in *config/mondongo*.

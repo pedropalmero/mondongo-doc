@@ -1,0 +1,37 @@
+Mondongo Container
+=======================
+
+The Mondongo Container **MondongoContainer** allows us to work more easily with the documents.
+
+Assigning Mondongos
+-------------------
+
+We can assign one Mondongo by default and/or specify Mondongo by document.
+
+    [php]
+    // by default
+    MondongoContainer::setDefault($mondongo);
+
+    // by document
+    MondongoContainer::setForName('Article', $mondongo);
+
+Using Documents
+-----------------
+
+With the Mondongo Container we can simplify working with documents:
+
+    [php]
+    // mondongo
+    $document->getMondongo();
+
+    // repository
+    $document->getRepository();
+
+    // definition
+    $document->getDefinition();
+
+    // saving
+    $document->save();
+
+    // deleting
+    $document->delete();

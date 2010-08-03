@@ -1,0 +1,19 @@
+Índices
+=======
+
+En los documentos Mondongo pueden especificarse los índices en las definiciones
+para luego sincronizarlos fácilmente con Mongo mediante el repositorio.
+
+Definición de índices:
+
+    [php]
+    // simple
+    $definition->addIndex(array('fields' => array('created_at' => 1)));
+
+    // con opciones
+    $definition->addIndex(array('fields' => array('slug' => 1), 'options' => array('unique' => 1))));
+
+Sincronización con Mongo:
+
+    [php]
+    $repository->ensureIndexes();

@@ -1,0 +1,17 @@
+Introducción
+============
+
+Mondongo es un **Object Document Mapper** (*ODM*) sencillo, potente y
+ultrarrápido para PHP (5.3.0+) con MongoDB.
+
+Algunas de sus características están basadas en Doctrine (1 y 2).
+
+Sencillo, potente y ultrarápido
+-------------------------------
+
+MongoDB es una base de datos sencilla, potente y ultrarrápida, por lo que un
+buen ODM para MongoDB debería ser también sencillo, potente y ultrarrápido.
+
+La gente que prueba Mondongo nos cuenta que se aproxima bastante a esta
+descripción, por lo que te invitamos a que lo pruebes y nos cuentes tus
+impresiones ;)

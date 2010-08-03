@@ -1,0 +1,151 @@
+Definiciones
+============
+
+Mediante las definiciones de los documentos se realiza el mapeo de los mismos.
+
+Las definiciones se realizan en la función estática **define** de los
+documentos, los cuales heredan de la clase **MondongoDocument**.
+
+    [php]
+    class Article extends MondongoDocument
+    {
+      static public function define($definition)
+      {
+        // ...
+      }
+    }
+
+Campos
+------
+
+Los campos son los datos del documento.
+
+Pueden asignarse de uno en uno o todos a la vez:
+
+    [php]
+    // de uno en uno
+    $definition->setField('title', 'string');
+
+    // todos a la vez (resetea)
+    $definition->setFields(array(
+      'title'   => 'string',
+      'content' => 'string',
+    ));
+
+En cadenas o arrays:
+
+    [php]
+    $definition->setField('title', 'string');
+
+    $definition->setField('title', array('type' => 'string'));
+
+Asignando requerido (por defecto si) y valor por defecto (por defecto null):
+
+    [php]
+    $definition->setField('is_active', array('type' => 'boolean', 'required' => true, 'default' => false));
+
+En Mondongo vienen definidos varios tipos de campos por defecto:
+
+  * array (arrays serializados)
+  * bin_data (archivos de hasta 4 MB)
+  * boolean (booleanos)
+  * date (fechas)
+  * file (archivos con GridFS)
+  * float (números flotantes)
+  * id (mongo id)
+  * integer (números enteros)
+  * raw (sin procesado)
+  * string (cadenas)
+
+Pueden construirse también tipos personalizados; más adelante veremos cómo.
+
+Referencias
+-----------
+
+Las referencias son relaciones hacia otros documentos.
+
+Para definirlas hay que indicar el nombre de la referencia, el tipo, el modelo
+y el campo en el que se guarda la referencia.
+
+Pueden ser hacia uno:
+
+    [php]
+    $definition->setField('author_id', 'id');
+
+    $definition->reference('author', array('type' => 'one', 'model' => 'Author', 'field' => 'author_id'));
+
+O hacia varios:
+
+    [php]
+    $definition->setField('category_ids', 'raw');
+
+    $definition->reference('categories', array('type' => 'many', 'model' => 'Category', 'field' => 'category_ids'));
+
+Embebidos
+---------
+
+Los embebidos son documentos dentro de documentos.
+
+Se definen igual que los documentos normales, salvo que heredan de
+MondongoDocumentEmbed y no pueden tener más embebidos.
+
+    [php]
+    class Address extends MondongoDocumentEmbed
+    {
+      static public function define($definition)
+      {
+        $definition->setFields(array(
+          'address' => 'string',
+          'city'    => 'string',
+        ));
+      }
+    }
+
+Para definir los embebidos en los documentos hay que asignar el nombre, el tipo
+y el modelo
+
+Se puede embeber uno:
+
+    [php]
+    $definition->embed(array('type' => 'one', 'model' => 'Address'));
+
+O varios:
+
+    [php]
+    $definition->embed(array('type' => 'many', 'model' => 'Comment'));
+
+Relaciones
+----------
+
+Las relaciones son relaciones desde otros documentos.
+
+Para definirlas hay que indicar el nombre de la relación, el tipo, el modelo y
+el campo desde el que se referencia.
+
+Pueden ser desde uno:
+
+    [php]
+    $definition->relation('address', array('type' => 'one', 'model' => 'Address', 'field' => 'author_id'));
+
+O desde varios:
+
+    [php]
+    $definition->relation('articles', array('type' => 'many', 'model' => 'Article', 'field' => 'author_id'));
+
+Conexión
+--------
+
+Puede indicarse la conexión para el documento; si no se indica se usa la
+conexión por defecto.
+
+    [php]
+    $definition->setConnection('global');
+
+Colección
+---------
+
+También puede indicarse la colección para el documento, que si no se indica se
+usa el **underscore** del nombre del documento.
+
+    [php]
+    $definition->setCollection('articles');

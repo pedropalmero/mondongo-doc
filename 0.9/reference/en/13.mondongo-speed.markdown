@@ -1,0 +1,37 @@
+MondongoSpeed
+=============
+
+The Mondongo documents are fast in themselves, but if we want to the reach the maximum performance that offers Mondongo, we'll have to use the documents *MondongoSpeed*.
+
+The only thing that *MondongoSpeed* documents do is to avoid the constructor of PHP objects, but this simple detail considerably accelerates their creation.
+
+To use *MondongoSpeed* the documents have to inherit from **MondongoDocumentSpeed** (the embeds of **MondongoDocumentEmbedSpeed**).
+
+And to avoid the constructor, we have to do in the classes definition of documents the same that the constructor does: assign the default value of document data.
+
+But as all in Mondongo, is very easy. We only have to specify the object fields with the default value, that is usually *null*. And if any of them is different from null, assign it *null* in the modifications to indicate Mondongo that it has changed.
+
+    [php]
+    class Article extends MondongoDocumentSpeed
+    {
+      static public function define($definition)
+      {
+        // default fields
+        protected $data = array(
+          'title'     => null,
+          'content'   => null,
+          'is_active' => true,
+        );
+
+        // modifications (only if it has default values different from null)
+        protected $modified = array(
+          'is_active' => null,
+        );
+
+        $definition->setFields(array(
+          'title'     => 'string',
+          'content'   => 'string',
+          'is_active' => array('type' => 'boolean', 'default' => true),
+        ));
+      }
+    }

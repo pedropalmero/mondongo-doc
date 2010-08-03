@@ -1,0 +1,49 @@
+Tipos Personalizados
+====================
+
+Como comentamos en las definiciones, pueden usarse tipos personalizados aparte
+de los que vienen por defecto en Mondongo.
+
+Para ello tenemos que crear el tipo y añadirlo al contenedor de tipos.
+
+Tipo Personalizado
+------------------
+
+Un tipo personalizado tan sólo es una clase que hereda de MondongoType. Veamos
+un ejemplo:
+
+    [php]
+    class MondongoTypeString extends MondongoType
+    {
+      public function toMongo($value)
+      {
+        return (string) $value;
+      }
+
+      public function toPHP($value)
+      {
+        return (string) $value;
+      }
+
+      public function closureToMongo()
+      {
+        return '$return = (string) $value;';
+      }
+
+      public function closureToPHP()
+      {
+        return '$return = (string) $value;';
+      }
+    }
+
+Lo más curioso son las funciones *closure*, que son igual que las normales pero
+en cadena. Son una de las razones por las que Mondongo es *ultrarápido* ;)
+
+Contenedor de Tipos
+-------------------
+
+Una vez tenemos el tipo personalizado sólo tenemos que añadirlo al contenedor
+de tipos:
+
+    [php]
+    MondongoTypeContainer::addType('my_string', 'MondongoTypeString');

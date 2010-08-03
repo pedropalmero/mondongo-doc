@@ -1,0 +1,95 @@
+Forms
+===========
+
+With the *sfMondongoPlugin* we can also generate the model forms from the documents.
+
+    $ ./symfony mondongo:build-forms
+
+With this the forms will be generated in *lib/form/mondongo*.
+
+And we'll be able to use them as follows:
+
+    [php]
+    class documentActions extends sfActions
+    {
+      // ...
+
+      public function executeCreate(sfWebRequest $request)
+      {
+        $this->form = new DocumentForm();
+
+        if ($request->isMethod('post'))
+        {
+          $this->form->bind($request->getParameter($this->form->getName()));
+
+          if ($this->form->isValid())
+          {
+            $this->form->save();
+
+            return $this->redirect('@homepage');
+          }
+        }
+      }
+    }
+
+We can also assign them the document:
+
+    [php]
+    $this->form = new DocumentForm($document);
+
+And obtain it:
+
+    [php]
+    $document = $this->form->getDocument();
+
+BaseMondongoForm
+----------------
+
+When generating the forms, it is generated the class *BaseMondongoForm*, from which the Mondongo forms extend. In this class is possible to customize functionalities of all forms.
+
+
+References
+-----------
+
+The *sfMondongoPlugin* also brings us a widget and a validator to be able to select references in the Mondongo forms.
+
+### sfWidgetFormMondongoChoice
+
+With the *sfWidgetFormMondongoChoice* we can select one or several referenced documents.
+
+    [php]
+    // to one
+    $this->widgetSchema['author_id'] = new sfWidgetFormMondongoChoice(array('model' => 'Author'));
+
+    // to many
+    $this->widgetSchema['category_ids'] = new sfWidgetFormMondongoChoice(array('model' => 'Category', 'multiple' => true));
+
+Options:
+
+  * **model**: (required) the referenced class
+  * **add_empty**: if adding a blank option
+  * **method**: method to obtain the displayed value of the document
+  * **find_query**: query for finding
+  * **find_options**: options for the query
+
+The *sfWidgetFormMondongoChoice* extends from *sfWidgetFormChoice*, that's why we can also use its options.
+
+### sfValidatorMondongoChoice
+
+With the *sfValidatorMondongoChoice* we validate one or multiple referenced documents.
+
+    [php]
+    // to one
+    $this->validatorSchema['author_id'] = new sfValidatorMondongoChoice(array('model' => 'Author'));
+
+    // to many
+    $this->validatorSchema['category_ids'] = new sfValidatorMondongoChoice(array('model' => 'Category', 'multiple' => true));
+
+Options:
+
+  * **model**: (required) the referenced class
+  * **field**: the field from which it is referenced (*_id* by default)
+  * **find_query**: query for finding
+  * **multiple**: if it is multiple
+  * **min**: minimum number of referenced
+  * **max**: maximum number of referenced

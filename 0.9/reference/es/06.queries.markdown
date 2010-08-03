@@ -1,0 +1,61 @@
+Consultas
+=========
+
+Las consultas en Mondongo se hacen mediante los repositorios.
+
+Seleccionando
+-------------
+
+Para seleccionar documentos podemos hacerlo de varias maneras según lo que
+queramos obtener y con qué lo busquemos.
+
+Consultas simples por id (devuelve un resultado):
+
+    [php]
+    $article = $articleRepository->get($id); // id como cadena u objeto MongoId
+
+Consultas con condiciones y opciones (devuelve un array de documentos):
+
+    [php]
+    // todos los artículos
+    $articles = $articleRepository->find();
+
+    // artículos activos
+    $articles = $articleRepository->find(array('is_active' => true));
+
+    // ordenando
+    $articles = $articleRepository->find(array(), array('sort' => array('date' => 1)));
+
+    // limitando
+    $articles = $articleRepository->find(array(), array('limit' => 10));
+
+    // saltando
+    $articles = $articleRepository->find(array(), array('skip' => 5));
+
+Consultas para obtener un resultado (también permite condiciones y opciones):
+
+    [php]
+    $article = $articleRepository->findOne();
+
+    $article = $articleRepository->findOne(array('is_active' => true));
+
+Borrando
+--------
+
+Para borrar documentos tenemos la función *remove*:
+
+    [php]
+    // todos
+    $articleRepository->remove();
+
+    // con condiciones
+    $articleRepository->remove(array('is_active' => false));
+
+Colección Mongo
+---------------
+
+Si se quieren usar más funciones de las colecciones Mongo, puede accederse a
+ellas mediante la función **->getMongoCollection()** del repositorio:
+
+    [php]
+    $mongoCollection = $articleRepository->getMongoCollection();

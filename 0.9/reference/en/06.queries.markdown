@@ -1,0 +1,59 @@
+Queries
+=========
+
+Queries in Mondongo are made with the repositories.
+
+Selecting
+-------------
+
+To select documents we can do in multiple ways depending on what we want to obtain and what we are using to obtain them:
+
+Simple queries by id (return one result):
+
+    [php]
+    $article = $articleRepository->get($id); // id as string or MongoId object
+
+Queries with conditions and options (returns an array of documents):
+
+    [php]
+    // all the articles
+    $articles = $articleRepository->find();
+
+    // active articles
+    $articles = $articleRepository->find(array('is_active' => true));
+
+    // sorting
+    $articles = $articleRepository->find(array(), array('sort' => array('date' => 1)));
+
+    // limiting
+    $articles = $articleRepository->find(array(), array('limit' => 10));
+
+    // skipping
+    $articles = $articleRepository->find(array(), array('skip' => 5));
+
+Queries to obtain a result (it also allows conditions and options):
+
+    [php]
+    $article = $articleRepository->findOne();
+
+    $article = $articleRepository->findOne(array('is_active' => true));
+
+Deleting
+--------
+
+To delete documents we have the function *remove*:
+
+    [php]
+    // all
+    $articleRepository->remove();
+
+    // with conditions
+    $articleRepository->remove(array('is_active' => false));
+
+Mongo Collection
+---------------
+
+If you want to use more functions of the Mongo collections, you can access them with the function **->getMongoCollection()** of the repository:
+
+    [php]
+    $mongoCollection = $articleRepository->getMongoCollection();

@@ -1,0 +1,12 @@
+Conexiones
+==========
+
+Podemos definir conexiones Mondongo en el *databases.yml*:
+
+    [yml]
+    all:
+      mondongo:
+        class: sfMondongoDatabase
+        param:
+          server:   localhost
+          database: my_database

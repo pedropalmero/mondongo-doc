@@ -4,7 +4,7 @@ Fixtures
 Podemos definir fixtures en *data/mondongo*:
 
     [yml]
-    Articles:
+    Article:
       my_article:
         author:  pablodip
         title:   My Article

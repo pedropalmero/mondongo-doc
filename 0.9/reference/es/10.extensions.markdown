@@ -54,7 +54,7 @@ extensión. Para el repositorio también, lo que tienen que acabar en
       // método para el documento
       public function getSlug()
       {
-        return $this->getInvoiker()->get('slug');
+        return $this->getInvoker()->get('slug');
       }
 
       // método para el repositorio

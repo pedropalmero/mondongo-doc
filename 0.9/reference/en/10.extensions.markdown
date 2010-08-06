@@ -49,7 +49,7 @@ To add methods to the documents, you simply have to create them in the extension
       // method for the document
       public function getSlug()
       {
-        return $this->getInvoiker()->get('slug');
+        return $this->getInvoker()->get('slug');
       }
 
       // method for the repository
